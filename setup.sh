@@ -20,6 +20,7 @@ return 1
 # Initial issues
 function initialIsues(){
 [ ! -d ./.startup ] && mkdir -p ./.startup
+apt autoremove --purge && apt clean
 cd ./.startup
 }
 #  -----------------------------
