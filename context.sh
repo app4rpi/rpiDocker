@@ -4,6 +4,9 @@
 #  ---------------------------------------------------------
 if [ "$EUID" -ne 0 ]; then echo "Must be root"; exit; fi
 export RELEASE=$(lsb_release -cs)
+export newTimeZone=""
+export newLocale=""
+export newHostName=""
 #
 export mainDomain="''"
 export mainIP="''"
