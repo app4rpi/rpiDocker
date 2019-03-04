@@ -21,7 +21,7 @@ color=('#DC443A' '#98243A' '#11589F' '#715138' '#D69C2F' '#616247' '#898E88' '#2
 export context=("(domain IP workDir nameSite colorSite subDirIn)"
 ) 
 #
-export dockerNginxImage="app2linux/nginx2ssl:latest"
+export dockerNginxImage="app4rpi/nginx:latest"
 export dockerNginxContainer="nginx"
 export SSL=""
 export SSLemail=""
