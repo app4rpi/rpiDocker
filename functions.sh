@@ -337,9 +337,136 @@ echo -en "\t"; read -rsn1 -p "Press key to continue -> " key
 return
 }
 # --------------------------------------------------------------------------
-
-
-#  ----------------------------------
+function changeHostname(){
+echo -e $LINE"\nActual Host name\n"$LINE
+actualHost=$(hostname)
+echo -e "\n    $actualHost\n"
+while true; do  
+    echo -e $LINE"\n    [x]  Cancel & Continue"
+    echo $LINE
+    read -p "   > " lineOrder
+    [[ ${#lineOrder} = 1 && $lineOrder =~ ^(x|X) ]] && { echo ''; break; }
+    [[ ! $lineOrder ]] && { echo ''; continue; }
+    lineOrder=${lineOrder//[^[:alnum:]]/}
+    [[ ${lineOrder} = $actualHost ]] && { echo ''; break; }
+    echo -en "\n"$lineOrder; isOk; val=$?; echo '';
+    [[ $val == 0 ]] && continue
+    sed -i "s/$actualHost/$lineOrder/g" /etc/hosts
+    sed -i "s/$actualHost/$lineOrder/g" /etc/hostname
+    hostname $lineOrder
+    systemctl daemon-reload
+    break
+done
+echo -e $LINE'\n   Actual Host name: [ '$(hostname)' ] \n'$LINE
+echo -en "\t"; read -rsn1 -p "Press key to continue -> " key
+return
+return 1
+}
+# --------------------------------------------------------------------------
+function changeTimeZone(){
+echo -e $LINE"\nTimeZone (actual)\n"$LINE
+echo -e "\n    $(cat /etc/timezone)\n"
+while true; do  
+    echo -e $LINE"\n    [x]  Cancel & Continue"
+    echo $LINE
+    read -p "   > " lineOrder
+    [[ ${#lineOrder} = 1 && $lineOrder =~ ^(x|X) ]] && { echo ''; break; }
+    [[ ! $lineOrder ]] && { echo ''; continue; }
+    if [[ ${lineOrder} = *"/"* ]]; then
+        loc=${lineOrder//*\//};loc=${loc// */}
+        zon=${lineOrder//\/*/};zon=${zon//* /}
+        [[ -z $zon || -z $loc ]] && newTimeZone="" || { newTimeZone=$zon/$loc; }
+    fi
+    if [[ -n $newTimeZone ]]; then
+        [[ ! -f /usr/share/zoneinfo/$zon/$loc ]] && { echo -e "\n"$newTimeZone" -> (TimeZone error)"; continue; }
+        echo -en "\n"$newTimeZone; isOk; val=$?; echo '';
+        [[ $val == 0 ]] && continue
+        timedatectl set-timezone $newTimeZone
+        break
+    else
+        echo -e "\n"${lineOrder}" ->  ( error )"
+    fi 
+done
+echo -e $LINE'\n   Actual time zone: [ '$(cat /etc/timezone)' ] \n'$LINE
+echo -en "\t"; read -rsn1 -p "Press key to continue -> " key
+return
+}
+# --------------------------------------------------------------------------
+function changeLocale(){
+echo -e $LINE"\nLocale (actual)"
+file='/etc/locale.gen'
+[[ ! -f "${file%}".bak ]] && cp "${file}" "${file%.sh}".bak
+while true; do 
+    echo -en $LINE"\nMain locale:\n   ${LANG:0:2} [$LANG]\n\nLocale availables:"
+    sed '/^#/d' /etc/locale.gen
+    echo -e $LINE"\n  [locale]  .or.  [x]  Continue"
+    echo $LINE
+    read -p "   > " lineOrder
+    [[ ${#lineOrder} = 1 && $lineOrder =~ ^(x|X) ]] && { echo ''; break; }
+    [[ ! $lineOrder ]] && { echo ''; continue; }
+    newLocale=$lineOrder
+    echo $LINE
+    SAVEIFS=$IFS   # Save current IFS
+    IFS=$'\n'      # Change IFS to new line
+    block=`sed -n "/^# ${newLocale}/p" /etc/locale.gen`$'\n'`sed -n "/^${newLocale}/p" /etc/locale.gen`
+    block=($block)
+    IFS=$SAVEIFS 
+    [[ ! $block ]] && { echo "Error in locale [newLocale]"; continue; }
+    for (( i=0; i<${#block[@]}; i++ )); do
+        echo "$i: ${block[$i]}"
+        done
+    echo -$LINE; read -p "[Comment|Uncomment] locale   > " lineOrder
+    [[ ! $lineOrder =~ ^-?[0-9]+$ ]] && continue
+    [[ $lineOrder -lt 0 || $lineOrder -gt ${#block[@]}-1 ]] && continue
+    [[ ${block[$lineOrder]:0:1} = '#' ]] && echo -en ${block[$lineOrder]:2} || echo -en '# '${block[$lineOrder]}
+    isOk; val=$?; echo '';
+    [[ $val == 0 ]] && continue
+    if [[ ${block[$lineOrder]:0:1} = '#' ]]; then
+        sed -Ei "s/^${block[$lineOrder]}/${block[$lineOrder]:2}/g" /etc/locale.gen
+    else
+        sed -Ei "s/^${block[$lineOrder]}/\# ${block[$lineOrder]}/g" /etc/locale.gen	
+    fi
+    echo ${block[$lineOrder]}
+    #
+done
+SAVEIFS=$IFS   # Save current IFS
+IFS=$'\n'      # Change IFS to new line
+block=`sed '/^#/d' /etc/locale.gen`
+block=($block)
+IFS=$SAVEIFS 
+echo -e $LINE'\nActual main locale: [ '$LANG' ] \nLocale availables:'
+for (( i=0; i<${#block[@]}; i++ )); do
+    echo "  $i: ${block[$i]}"
+    done
+echo -en $LINE"\n Reconfigure locale"
+isOk; val=$?; echo '';
+[[ $val == 0 ]] && return
+dpkg-reconfigure --frontend=noninteractive locales
+echo $LINE
+read -p " Select main locale  > " lineOrder
+[[ ! $lineOrder =~ ^-?[0-9]+$ ]] && return
+[[ $lineOrder -lt 0 || $lineOrder -gt ${#block[@]}-1 ]] && return
+echo -en " [${block[$lineOrder]}]"
+isOk; val=$?; echo '';
+[[ $val == 0 ]] && return
+update-locale LANG=${block[$lineOrder]}
+update-locale LANGUAGE=${block[$lineOrder]}
+update-locale LC_NUMERIC=${block[$lineOrder]}
+update-locale LC_TIME=${block[$lineOrder]}
+update-locale LC_MONETARY=${block[$lineOrder]}
+update-locale LC_PAPER=${block[$lineOrder]}
+update-locale LC_NAME=${block[$lineOrder]}
+update-locale LC_ADDRESS=${block[$lineOrder]}
+update-locale LC_TELEPHONE=${block[$lineOrder]}
+update-locale LC_MEASUREMENT=${block[$lineOrder]}
+update-locale LC_IDENTIFICATION=${block[$lineOrder]}
+echo $LINE
+cat /etc/default/locale
+echo $LINE
+echo -en "\t"; read -rsn1 -p "Press key to continue -> " key
+return
+}
+# --------------------------------------------------------------------------
 function downloadNginx() {
 echo -e '\n\n'$LINE"\nDownload Nginx Docker Image: [ "${dockerNginxImage}' ]'
 echo -e $LINE
