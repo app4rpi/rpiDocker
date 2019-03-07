@@ -36,7 +36,7 @@ file=(start.sh setupServer.sh startup.sh nginxConfig.sh functions.sh)
 echo-n "Bash files: "
 for ((i=0; i<${#file[@]}; i++)); do
     echo -n '<'${file[i]}'> : '
-    wget -q https://raw.githubusercontent.com/app2linux/webDebian/master/${file[i]} -P ./
+    wget -q https://raw.githubusercontent.com/app4rpi/rpiDocker/master/${file[i]} -P ./
     chmod +x ./${file[i]}
     done
 [[ ! -f ./context.sh ]] && wget -q https://raw.githubusercontent.com/app4rpi/rpiDocker/master/context.sh -P ./
@@ -52,7 +52,7 @@ echo -e "Restore from file or download new file from GitUb\n"$LINE
 isCorrect; val=$?;
 [[ $val == 0 ]] && return
 mv ./context.sh ./context.old
-[[ -f context.bak ]] && cp ./context.bak ./context.sh || { wget https://raw.githubusercontent.com/app2linux/webDebian/master/context.sh -P ./; chmod +x ./context.sh; }
+[[ -f context.bak ]] && cp ./context.bak ./context.sh || { wget https://raw.githubusercontent.com/app4rpi/rpiDocker/master/context.sh -P ./; chmod +x ./context.sh; }
 echo -e "\tFile <context.sh> restored."
 echo -en "\t"; read -rsn1 -p "Press key to continue -> " key
 return 1
