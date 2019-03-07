@@ -39,7 +39,7 @@ for ((i=0; i<${#file[@]}; i++)); do
     wget -q https://raw.githubusercontent.com/app2linux/webDebian/master/${file[i]} -P ./
     chmod +x ./${file[i]}
     done
-[[ ! -f ./context.sh ]] && wget -q https://raw.githubusercontent.com/app2linux/webDebian/master/context.sh -P ./
+[[ ! -f ./context.sh ]] && wget -q https://raw.githubusercontent.com/app4rpi/rpiDocker/master/context.sh -P ./
 echo -e "\n"$LINE$LINE"\n\n\tExit now & restart bash script file \n"
 echo -en "\t"; read -rsn1 -p "Press key to continue -> " key
 echo
