@@ -38,34 +38,18 @@ return 1
 function installDocker(){
 echo -e $LINE "\nInstall docker ... "
 [[ $(dpkg --get-selections docker-ce) ]] && { echo "Already installed";  return 1;}
-
 apt-get install apt-transport-https ca-certificates curl gnupg2 software-properties-common
-
 curl -fsSL https://download.docker.com/linux/debian/gpg | sudo apt-key add -
-
-#add-apt-repository "deb https://download.docker.com/linux/raspbian $(lsb_release -cs) stable"
 echo "deb [arch=armhf] https://download.docker.com/linux/$(. /etc/os-release; echo "$ID") \
      $(lsb_release -cs) stable" | \
     sudo tee /etc/apt/sources.list.d/docker.list
 apt update
-# curl -sSL https://get.docker.com | sh
-# version 18.09 not work on arm6
 apt-get install -y docker-ce=18.06.3~ce~3-0~raspbian containerd.io
-
-#curl -sSL https://get.docker.com | sh
-
-    ## Alternativament
-    # curl -fsSL get.docker.com -o get-docker.sh
-    # sudo bash get-docker.sh
-
 systemctl enable docker
 systemctl start docker
 usermod -aG docker $USER
 [[ $SUDO_USER ]] && usermod -aG docker $SUDO_USER || usermod -aG docker $USER
 apt autoremove --purge && apt clean
-
-
-
 return 1
 }
 #  ----------------------------------
