@@ -1,5 +1,5 @@
 #!/bin/bash
-# This script has been tested on Raspbian Stretch image
+# This script has been tested on Debian 9 Stretch image
 # chmod +x ./setup.sh
 # wget https://raw.githubusercontent.com/app4rpi/rpiDocker/master/setup.sh
 #  ---------------------------------------------------------
