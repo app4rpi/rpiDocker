@@ -70,7 +70,7 @@ for ((i=0; i<${#file[@]}; i++)); do
 echo -e "\n"$LINE$LINE
 echo -en "\t"; read -rsn1 -p "Press key to continue -> " key
 echo
-exit
+return
 }
 #  ------------------------------------------------------------------------------------------------------------------
 # Main process
