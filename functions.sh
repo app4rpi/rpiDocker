@@ -1,5 +1,5 @@
 #!/bin/bash
-# This script has been tested on Debian 8 Jessie image
+# This script has been tested on Debian 9 Stretch image
 # chmod +x ./function.sh
 source ./context.sh
 #  ---------------------------------------------------------
