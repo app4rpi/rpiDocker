@@ -58,13 +58,10 @@ return
 }
 # --------------------------------------------------------------------------
 function downloadGit(){
-echo -e '\n'$LINE'\nDownload git files:'
-echo -e "\tCopy & overwriting all bash script files except <context.sh>"
-echo -e "\tTo modify <context.sh> erase file first\n"$LINE
-isOk; val=$?;
-[[ $val == 0 ]] && return
+echo -e '\nDownload git files:'
+echo -e "\tCopy & overwriting all bash script files\n"$LINE
 file=(start.sh context.sh setupServer.sh startup.sh nginxConfig.sh functions.sh)
-echo-n "Bash files: "
+echo -n "Bash files: "
 for ((i=0; i<${#file[@]}; i++)); do
     echo -n '<'${file[i]}'> : '
     wget -q https://raw.githubusercontent.com/app2linux/webDebian/master/${file[i]} -P ./
