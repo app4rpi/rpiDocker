@@ -64,7 +64,7 @@ file=(start.sh context.sh setupServer.sh startup.sh nginxConfig.sh functions.sh)
 echo -n "Bash files: "
 for ((i=0; i<${#file[@]}; i++)); do
     echo -n '<'${file[i]}'> : '
-    wget -q https://raw.githubusercontent.com/app2linux/webDebian/master/${file[i]} -P ./
+    wget -q https://raw.githubusercontent.com/app4rpi/rpiDocker/master/${file[i]} -P ./
     chmod +x ./${file[i]}
     done
 echo -e "\n"$LINE$LINE
