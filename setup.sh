@@ -56,13 +56,32 @@ cat $file
 echo $LINE$LINE
 return
 }
+# --------------------------------------------------------------------------
+function downloadGit(){
+echo -e '\n'$LINE'\nDownload git files:'
+echo -e "\tCopy & overwriting all bash script files except <context.sh>"
+echo -e "\tTo modify <context.sh> erase file first\n"$LINE
+isOk; val=$?;
+[[ $val == 0 ]] && return
+file=(start.sh context.sh setupServer.sh startup.sh nginxConfig.sh functions.sh)
+echo-n "Bash files: "
+for ((i=0; i<${#file[@]}; i++)); do
+    echo -n '<'${file[i]}'> : '
+    wget -q https://raw.githubusercontent.com/app2linux/webDebian/master/${file[i]} -P ./
+    chmod +x ./${file[i]}
+    done
+echo -e "\n"$LINE$LINE
+echo -en "\t"; read -rsn1 -p "Press key to continue -> " key
+echo
+exit
+}
 #  ------------------------------------------------------------------------------------------------------------------
 # Main process
 #
 clear 
 echo -e "\nAutomatic install & config & start server and web server.\n"$LINE$LINE
 #  -----------------------
-configFunctions=(initialIsues updateNameservers updateServer ./setupServer.sh finalIssues)
+configFunctions=(initialIsues updateNameservers updateServer downloadGit ./setupServer.sh finalIssues)
 for process in ${configFunctions[*]} ; do
     $process
     done
