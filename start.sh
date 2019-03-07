@@ -88,7 +88,7 @@ initialIssues
 while true; do
     clear
     echo -e $LINE"\n\tOptions\n"$LINE 
-    echo -e "  1. Update server & install packages & services"
+    echo -e "  1. Update server & config & install"
     echo -e "  2. Web server config"
     echo -e "  4. Server maintenance: Backup"
     echo -e "  7. Manage Docker Nginx web server"
