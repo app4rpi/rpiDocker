@@ -338,7 +338,7 @@ return
 }
 # --------------------------------------------------------------------------
 function changeHostname(){
-echo -e $LINE"\nActual Host name\n"$LINE
+echo -e '\n\n'$LINE"\nActual Host name\n"$LINE
 actualHost=$(hostname)
 echo -e "\n    $actualHost\n"
 while true; do  
@@ -364,7 +364,7 @@ return 1
 }
 # --------------------------------------------------------------------------
 function changeTimeZone(){
-echo -e $LINE"\nTimeZone (actual)\n"$LINE
+echo -e '\n\n'$LINE"\nTimeZone (actual)\n"$LINE
 echo -e "\n    $(cat /etc/timezone)\n"
 while true; do  
     echo -e $LINE"\n    [x]  Cancel & Continue"
@@ -393,7 +393,7 @@ return
 }
 # --------------------------------------------------------------------------
 function changeLocale(){
-echo -e $LINE"\nLocale (actual)"
+echo -e '\n\n'$LINE"\nLocale (actual)"
 file='/etc/locale.gen'
 [[ ! -f "${file%}".bak ]] && cp "${file}" "${file%.sh}".bak
 while true; do 
