@@ -42,15 +42,21 @@ while true; do
     echo -e "  1. Update bash script config files"
     echo -e "  2. Update server & install uninstalled packages"
     echo -e "  r. Restart <context.sh> config file"
-    echo -e "  5. Config WebDav backup service"
+    echo -e "  4. Change Nameserver"
+    echo -e "  5. Change Time Zone"
+    echo -e "  6. Change locale"
+    echo -e "  8. Config WebDav backup service"
     echo -e "  9. Install SSL/TLS certificates"
     echo -e "  x. Exit\n"$LINE
     echo -en "\t"; read -rsn1 -p "Enter choice -> " key
     case $key in
-#        1) downloadGit ;;
+        1) downloadGit ;;
         2) ./setupServer.sh ;;
-#        r|R) restartContext ;;
-#        5) ./configDav.sh ;;
+        r|R) restartContext ;;
+        4) changeHostname ;;
+        5) changeTimeZone ;;
+        6) changeLocale ;;
+#        8) ./configDav.sh ;;
         x) break ;;
         esac
     done
