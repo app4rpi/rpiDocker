@@ -26,8 +26,7 @@ return 1
 # --------------------------------------------------------------------------
 # Update nameservers
 function updateNameservers(){
-echo $LINE
-echo 'Update system: '$(lsb_release -cs)
+echo -e '\n'$LINE'\nUpdate system: '$(lsb_release -cs)
 file="/etc/resolv.conf"
 echo -e "\n DNS servers\n"$LINE$LINE
 nameServers=("8.8.8.8" "1.1.1.1" "9.9.9.9" "208.67.222.222" "8.8.4.4" "149.112.112.112" "208.67.220.220")
