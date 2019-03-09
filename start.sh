@@ -40,7 +40,8 @@ function updateServer() {
 while true; do
     echo -e "\n"$LINE"\n\tUpdate & install options\n"$LINE 
     echo -e "  1. Update bash script config files"
-    echo -e "  2. Update server & install uninstalled packages"
+    echo -e "  2. Update nameservers"
+    echo -e "  3. Update server & install uninstalled packages"
     echo -e "  r. Restart <context.sh> config file"
     echo -e "  4. Change Nameserver"
     echo -e "  5. Change Time Zone"
@@ -51,7 +52,8 @@ while true; do
     echo -en "\t"; read -rsn1 -p "Enter choice -> " key
     case $key in
         1) downloadGit ;;
-        2) ./setupServer.sh ;;
+        2) updateNameservers ;;
+        3) ./setupServer.sh ;;
         r|R) restartContext ;;
         4) changeHostname ;;
         5) changeTimeZone ;;
