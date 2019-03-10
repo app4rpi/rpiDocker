@@ -50,7 +50,7 @@ file="/etc/resolv.conf"
 echo -e "\n DNS servers\n"$LINE$LINE
 nameServers=("8.8.8.8" "1.1.1.1" "9.9.9.9" "208.67.222.222" "8.8.4.4" "149.112.112.112" "208.67.220.220")
 for name in ${nameServers[*]} ; do
-    [[ ! $(sed -n "/^nameserver $name/p;q" $file) ]] && echo 'nameserver '$name >> $file
+    [[ ! $(sed "/^nameserver $name/p;q" $file) ]] && echo 'nameserver '$name >> $file
     done
 cat $file
 echo $LINE$LINE
