@@ -1,5 +1,5 @@
 #!/bin/bash
-# This script has been tested on Debian 9 Stretch image
+# This script has been tested on Raspbian 9 Stretch image
 # chmod +x ./setupServer.sh
 #  ---------------------------------------------------------
 if [ "$EUID" -ne 0 ]; then echo "Must be root"; exit; fi
