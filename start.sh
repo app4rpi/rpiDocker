@@ -70,7 +70,7 @@ while true; do
     echo -e "\n"$LINE"\n\tManage Docker Nginx web server\n"$LINE 
     echo -e "  1. Download Nginx Docker Image"
     echo -e "  2. Status Nginx Docker"
-    echo -e "  5. Restart Nginx Docker"
+    echo -e "  5. Start | Restart Nginx Docker"
     echo -e "  9. Backup files & folders"
     echo -e "  x. Exit\n"$LINE
     echo -en "\t"; read -rsn1 -p "Enter choice -> " key
