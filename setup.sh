@@ -33,7 +33,7 @@ cd ..
 # Update server
 function updateServer(){
 echo -e 'Update server'
-apt update -y
+apt update -y && apt dist-upgrade -y && apt upgrade -y
 apt autoremove --purge && apt clean
 echo $LINE$LINE
 return
