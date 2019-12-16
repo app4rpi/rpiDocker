@@ -11,7 +11,7 @@ function installFirewall(){
 echo -e $LINE "\nInstall && config ufw Firewall ... "
 [[ $(dpkg --get-selections ufw) ]] && { echo "Already installed";  return 1;}
 apt-get install -y ufw
-ufw enable
+ufw --force enable
 ufw default deny incoming
 ufw default allow outgoing
 ufw allow ssh
