@@ -49,7 +49,7 @@ file=(start.sh setupServer.sh startup.sh nginxConfig.sh functions.sh)
 echo -ne "\n\nBash files: "
 for ((i=0; i<${#file[@]}; i++)); do
     echo -n '<'${file[i]}'> : '
-    wget -q https://raw.githubusercontent.com/app4rpi/rpiDocker/master/${file[i]} -O -P ./
+    wget -q https://raw.githubusercontent.com/app4rpi/rpiDocker/master/${file[i]} -O ./${file[i]}
     chmod +x ./${file[i]}
     done
 [[ ! -f ./context.sh ]] && wget -q https://raw.githubusercontent.com/app4rpi/rpiDocker/master/context.sh -P ./
