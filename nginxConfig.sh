@@ -138,8 +138,8 @@ for ((i=1; i<${#context[@]}; i++)); do
     cat ${appFolder}/${data[3]}.conf
     echo "# ----------------------------"
 done
-thisSite="server {\nlisten 80;\nserver_name ${mainIP} www.${mainDomain};\nreturn 301 $scheme://${mainDomain}$request_uri;\n}"
-echo -e $thisSite > ${appFolder}/default.conf
+# thisSite="server {\nlisten 80;\nserver_name ${mainIP} www.${mainDomain};\nreturn 301 $scheme://${mainDomain}$request_uri;\n}"
+# echo -e $thisSite > ${appFolder}/default.conf
 return
 }
 #  ----------------------------------
