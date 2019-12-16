@@ -1,5 +1,5 @@
 #!/bin/bash
-# This script has been tested on Raspbian 9 Stretch image
+# This script has been tested on Raspbian 10 Buster image (v. September 2019)
 # chmod +x ./function.sh
 source ./context.sh
 #  ---------------------------------------------------------
