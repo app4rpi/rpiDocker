@@ -27,34 +27,30 @@ function installOther(){
 echo -e $LINE "\nInstall git ... "
 [[ $(dpkg --get-selections git) ]] && echo "Git Already installed" || apt-get install -y git
 echo 'Install davfs2 ... '
-[[ $(dpkg --get-selections davfs2) ]] && echo "davfs2 installed" || apt-get -y install davfs2
+[[ $(dpkg --get-selections davfs2) ]] && echo "davfs2 installed" || DEBIAN_FRONTEND=noninteractive apt-get -yq install davfs2
 echo 'Install tar ... '
-[[ $(dpkg --get-selections tar) ]] && echo "tar installed" || apt-get -y install tar
+[[ $(dpkg --get-selections tar) ]] && echo "tar installed" || apt-get install -y tar
 echo 'Install curl ... '
-[[ $(dpkg --get-selections curl) ]] && echo "curl installed" || apt-get -y install curl
+[[ $(dpkg --get-selections curl) ]] && echo "curl installed" || apt-get install -y curl
 return 1
 }
 #  ----------------------------------
 function installDocker(){
 echo -e $LINE "\nInstall docker ... "
 [[ $(dpkg --get-selections docker-ce) ]] && { echo "Already installed";  return 1;}
-apt-get install apt-transport-https ca-certificates curl gnupg2 software-properties-common
-curl -fsSL https://download.docker.com/linux/debian/gpg | sudo apt-key add -
-echo "deb [arch=armhf] https://download.docker.com/linux/$(. /etc/os-release; echo "$ID") \
-     $(lsb_release -cs) stable" | \
-    sudo tee /etc/apt/sources.list.d/docker.list
-apt update
-apt-get install -y docker-ce=18.06.3~ce~3-0~raspbian containerd.io
+curl -fsSL https://get.docker.com | sh
+usermod -aG docker $USER
+apt-get install -y libffi-dev libssl-dev
+apt-get install -y python python-pip
+apt-get remove -y python-configparser
 systemctl enable docker
 systemctl start docker
-usermod -aG docker $USER
-[[ $SUDO_USER ]] && usermod -aG docker $SUDO_USER || usermod -aG docker $USER
-apt autoremove --purge && apt clean
 return 1
 }
 #  ----------------------------------
 function finalissues(){
-echo 'Final issues ... '
+echo -e "\n\t\tFinal issues...\n"
+apt -y autoremove --purge && apt -y clean
 return 1
 }
 #  ---------------------------------------------------------
