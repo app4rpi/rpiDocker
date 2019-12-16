@@ -38,6 +38,7 @@ return
 #  ----------------------------------
 function updateServer() {
 while true; do
+    clear
     echo -e "\n"$LINE"\n\tUpdate & install options\n"$LINE 
     echo -e "  1. Update bash script config files"
     echo -e "  2. Update nameservers"

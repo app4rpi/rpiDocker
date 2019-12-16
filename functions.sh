@@ -35,6 +35,7 @@ for name in ${nameServers[*]} ; do
     done
 cat $file
 echo $LINE$LINE
+echo -en "\t"; read -rsn1 -p "Press key to continue -> " key
 return
 }
 # --------------------------------------------------------------------------
