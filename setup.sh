@@ -2,7 +2,7 @@
 # This script has been tested on Raspbian 10 Buster image (v. September 2019)
 # sudo chmod +x ./setup.sh
 # wget https://raw.githubusercontent.com/app4rpi/rpiDocker/master/setup.sh
-#  ---------------------------------------------------------
+#  --------------------------------------------------------------------------
 if [ "$EUID" -ne 0 ]; then echo "Must be root"; exit; fi
 LINE="---------------------------------------"
 #  ---------------------------------------------------------
@@ -60,11 +60,11 @@ return
 function downloadGit(){
 echo -e '\nDownload git files:'
 echo -e "\tCopy & overwriting all bash script files\n"$LINE
-file=(start.sh context.sh setupServer.sh startup.sh nginxConfig.sh functions.sh)
+file=(start.sh context.sh webServerMaintenance.sh webServerStartup.sh webServerConfig.sh rPiMaintenance.sh rpiInstallApps.sh rpiManageStorage.sh functions.sh)
 echo -n "Bash files: "
 for ((i=0; i<${#file[@]}; i++)); do
     echo -n '<'${file[i]}'> : '
-    wget -q https://raw.githubusercontent.com/app4rpi/rpiDocker/master/${file[i]} -P ./
+    wget -q https://raw.githubusercontent.com/app4rpi/rpiDocker/master/${file[i]} -O -P ./${file[i]}
     chmod +x ./${file[i]}
     done
 echo -e "\n"$LINE$LINE

@@ -1,14 +1,14 @@
 #!/bin/bash
 # This script has been tested on Raspbian 10 Buster image (v. September 2019)
 # chmod +x ./setupServer.sh
-#  ---------------------------------------------------------
+#  --------------------------------------------------------------------------
 if [ "$EUID" -ne 0 ]; then echo "Must be root"; exit; fi
 LINE="-----------------------------------------------"
 #  ---------------------------------------------------------
 RELEASE=$(lsb_release -cs)
 #  ---------------------------------------------------------
-function installFirewall(){
-echo -e $LINE "\nInstall && config ufw Firewall ... "
+ffunction installFirewall(){
+echo -e "\n"$LINE "\nInstall && config ufw Firewall ... "
 [[ $(dpkg --get-selections ufw) ]] && { echo "Already installed";  return 1;}
 apt-get install -y ufw
 ufw --force enable

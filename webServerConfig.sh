@@ -1,7 +1,7 @@
 #!/bin/bash
-# This script has been tested on Raspbian 9 Stretch image
-# chmod +x ./nginxConfig.sh
-#  ---------------------------------------------------------
+# This script has been tested on Raspbian 10 Buster image (v. September 2019)
+# chmod +x ./webServerConfig.sh
+#  --------------------------------------------------------------------------
 if [ "$EUID" -ne 0 ]; then echo "Must be root"; exit; fi
 echo -e "#\n# Nginx files & folders create\n#"
 #  ---------------------------------------------------------
