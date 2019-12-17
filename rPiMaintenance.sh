@@ -20,8 +20,6 @@ for name in ${nameServers[*]} ; do
     if ! grep -q "nameserver $name" $file; then echo 'nameserver '$name >> $file; fi
     done
 cat $file
-echo $LINE
-echo -en "\t"; read -rsn1 -p "Press key to continue -> " key
 return
 }
 # --------------------------------------------------------------------------
@@ -39,8 +37,7 @@ for ((i=0; i<${#file[@]}; i++)); do
     chmod +x ./${file[i]}
     done
 [[ ! -f ./context.sh ]] && wget -q https://raw.githubusercontent.com/app4rpi/rpiDocker/master/context.sh -P ./
-echo -e "\n"$LINE$LINE"\n\n\tExit now & restart bash script file \n"
-echo
+echo -e "\n"$LINE$LINE"\n\n\tExit now & restart bash script file \n\n"
 exit
 }
 # --------------------------------------------------------------------------
