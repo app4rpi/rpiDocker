@@ -33,10 +33,10 @@ isOk; val=$?;
 [[ $val == 0 ]] && return
 #file=(start.sh setupServer.sh startup.sh nginxConfig.sh setupDav.sh letsencrypt.sh nginxStart.sh sslConfig.sh configDav.sh test.sh)
 file=(start.sh setupServer.sh startup.sh nginxConfig.sh functions.sh)
-echo-n "Bash files: "
+echo -n "Bash files: "
 for ((i=0; i<${#file[@]}; i++)); do
     echo -n '<'${file[i]}'> : '
-    wget -q https://raw.githubusercontent.com/app4rpi/rpiDocker/master/${file[i]} -P ./
+    wget -q https://raw.githubusercontent.com/app4rpi/rpiDocker/master/${file[i]} -O -P ./${file[i]}
     chmod +x ./${file[i]}
     done
 [[ ! -f ./context.sh ]] && wget -q https://raw.githubusercontent.com/app4rpi/rpiDocker/master/context.sh -P ./
