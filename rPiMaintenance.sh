@@ -31,8 +31,7 @@ echo -e "\tCopy & overwriting all bash script files except <context.sh>"
 echo -e "\tTo modify <context.sh> erase file first\n"$LINE
 isOk; val=$?;
 [[ $val == 0 ]] && return
-#file=(start.sh setupServer.sh startup.sh nginxConfig.sh setupDav.sh letsencrypt.sh nginxStart.sh sslConfig.sh configDav.sh test.sh)
-file=(start.sh setupServer.sh startup.sh nginxConfig.sh functions.sh)
+file=(start.sh context.sh webServerMaintenance.sh webServerStartup.sh webServerConfig.sh rPiMaintenance.sh rpiInstallApps.sh rpiManageStorage.sh functions.sh)
 echo -n "Bash files: "
 for ((i=0; i<${#file[@]}; i++)); do
     echo -n '<'${file[i]}'> : '
