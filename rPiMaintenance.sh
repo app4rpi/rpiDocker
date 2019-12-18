@@ -37,7 +37,7 @@ for ((i=0; i<${#file[@]}; i++)); do
     chmod +x ./${file[i]}
     done
 [[ ! -f ./context.sh ]] && wget -q https://raw.githubusercontent.com/app4rpi/rpiDocker/master/context.sh -O ./context.sh
-echo -e "\n"$LINE$LINE"\n\n\tExit now & restart bash script file \n"
+echo -e "\n"$LINE"\n\n\tExit now & restart bash script file \n"
 exit 1
 }
 # --------------------------------------------------------------------------
