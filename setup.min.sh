@@ -26,7 +26,7 @@ echo -e '\n'$LINE'\nDownload git files:'
 echo -e "\tCopy & overwriting all bash script files except <context.sh>"
 echo -e "\tTo modify <context.sh> erase file first\n"$LINE
 [[ $val == 0 ]] && return
-file=(start.sh webServerMaintenance.sh webServerStartup.sh webServerConfig.sh rPiMaintenance.sh rpiInstallApps.sh rpiManageStorage.sh functions.sh)
+file=(start.sh webServerMaintenance.sh webServerStartup.sh webServerConfig.sh rPiMaintenance.sh rpiInstallApps.sh rpiManageStorage.sh dockerMaintenance.sh functions.sh)
 echo -n "Bash files: "
 for ((i=0; i<${#file[@]}; i++)); do
     echo -n '<'${file[i]}'> : '

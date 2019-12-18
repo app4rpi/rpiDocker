@@ -60,7 +60,7 @@ return
 function downloadGit(){
 echo -e '\nDownload git files:'
 echo -e "\tCopy & overwriting all bash script files\n"$LINE
-file=(start.sh context.sh webServerMaintenance.sh webServerStartup.sh webServerConfig.sh rPiMaintenance.sh rpiInstallApps.sh rpiManageStorage.sh functions.sh)
+file=(start.sh context.sh webServerMaintenance.sh webServerStartup.sh webServerConfig.sh rPiMaintenance.sh rpiInstallApps.sh rpiManageStorage.sh dockerMaintenance.sh functions.sh)
 echo -n "Bash files: "
 for ((i=0; i<${#file[@]}; i++)); do
     echo -n '<'${file[i]}'> : '
