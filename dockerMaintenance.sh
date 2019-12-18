@@ -160,24 +160,16 @@ while true; do
     echo -e "  2. Docker Stop"
     echo -e "  3. View Docker Logs"
     echo -e "Docker images && docker ps -a"
-    echo -e "  4. miniDlna docker config file create"
-    echo -e "  5. make miniDlna Docker image && volume"
-    echo -e "  6. Utilities docker config file create"
-    echo -e "  7. make utilities Docker image"
-    echo -e "  9. Install & run 'Portainer'"
     echo -e "  u. Install Utilities "
     echo -e "  x. Exit\n"$LINE
     echo -en "\t"; read -rsn1 -p "Enter choice -> " key
     case $key in
-        4)  minidlnaDockerCreate ;;
-        5)  makeMinidlnaImage ;;
-        6)  utilsDockerCreate ;;
         9) startPortainer ;;
         u) startUtils ;;
         x) break ;;
         *) continue ;;
     esac
-echo -en "\n"$LINE"\n\t"; read -rsn1 -p "Press key to continue -> " key
+    echo -en "\n"$LINE"\n\t"; read -rsn1 -p "Press key to continue -> " key
 done
 echo -e "\n\n"
 exit

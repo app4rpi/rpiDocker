@@ -37,6 +37,7 @@ while true; do
         t) ./test.sh ;;
         x) break ;;
     esac
+    [[ $? = 1 ]] && break
 done
 #
 finalIssues

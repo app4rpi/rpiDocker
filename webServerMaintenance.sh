@@ -326,6 +326,7 @@ echo 'Create include folder ... '
 # --------------------------------------------------------------------------
 # 
 while true; do
+    clear
     echo -e "\n"$LINE"\n\tWeb server Maintenance\n"$LINE 
     echo -e "  1. Download Nginx Docker Image"
     echo -e "  2. Status Nginx Docker"
@@ -352,9 +353,8 @@ while true; do
 #        b|B) ./syncDav.sh ;;
         x) break ;;
         *) continue ;;
-        esac
-echo -en "\n"$LINE"\n\t"; read -rsn1 -p "Press key to continue -> " key
-clear
-    done
+    esac
+    echo -en "\n"$LINE"\n\t"; read -rsn1 -p "Press key to continue -> " key
+done
 clear
 exit

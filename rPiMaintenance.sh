@@ -37,12 +37,13 @@ for ((i=0; i<${#file[@]}; i++)); do
     chmod +x ./${file[i]}
     done
 [[ ! -f ./context.sh ]] && wget -q https://raw.githubusercontent.com/app4rpi/rpiDocker/master/context.sh -P ./
-echo -e "\n"$LINE$LINE"\n\n\tExit now & restart bash script file \n\n"
-exit
+echo -e "\n"$LINE$LINE"\n\n\tExit now & restart bash script file \n"
+exit 1
 }
 # --------------------------------------------------------------------------
 # 
 while true; do
+    clear
     echo -e "\n"$LINE"\n\trPi maintenance\n"$LINE 
     echo -e "  1. Start rpi-config"
     echo -e "  2. Update nameservers"
@@ -56,8 +57,8 @@ while true; do
         3) ./rpiInstallApps.sh ;;
         4) downloadGit ;;
         x) break ;;
-        esac
-echo -en $LINE"\t"; read -rsn1 -p ">> Press key to continue -> " key
-clear
-    done
+        *) continue ;;
+    esac
+    echo -en "\n"$LINE"\n\t"; read -rsn1 -p ">> Press key to continue -> " key
+done
 exit
