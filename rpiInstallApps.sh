@@ -61,8 +61,6 @@ for app in ${appUsables[*]} ; do
     $app
     done
 #
-echo -e $LINE"\n>  Server already uptated\n"$LINE
-echo -e "\n\t sudo reboot now\n\n"$LINE
-read -rsn1 -p "Press any key to continue > "
+echo -e $LINE"\n\t  Server already uptated\n\n\t sudo reboot now\n\n"
 #
 exit 0

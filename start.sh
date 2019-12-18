@@ -12,7 +12,7 @@ return 1
 }
 #  ----------------------------------
 function finalIssues(){
-echo -e '\n\n\tFinal issues ... \n'$LINE'\n'
+echo -e '\n\tFinal issues ... \n'$LINE'\n'
 return 1
 }
 # --------------------------------------------------------------------------
@@ -22,25 +22,20 @@ while true; do
     clear
     echo -e $LINE"\n\tOptions\n"$LINE 
     echo -e "  1. rPi maintenance"
-    echo -e "  2. Web Server maintenance"
+    echo -e "  2. Manage USB drives"
     echo -e "  3. Docker maintenance"
-    echo -e "  5. iot server"
-    echo -e "  6. Media server"
-    echo -e "  7. music server"
-    echo -e "  9. Other services & apps"
-    echo -e "\n  t. Test\n"
+    echo -e "  4. Web Server maintenance"
+    echo -e "  u. Other services & apps"
+    echo -e "\n  t. Test script\n"
     echo -e "  x. Exit"
     echo -en $LINE"\n\t"; read -rsn1 -p "Enter choice -> " key
     case $key in
         1) ./rPiMaintenance.sh ;;
-        2) ./webServerMaintenance.sh ;;
+        2) ./rpiManageStorage.sh ;;
         3) ./dockerMaintenance.sh ;;
-        5) ./iotServer.sh ;;
-        6) mediaServer ;;
-        7) manageWebserver ;;
+        4) ./webServerMaintenance.sh ;;
         t) ./test.sh ;;
         x) break ;;
-        *) continue ;;
     esac
 done
 #

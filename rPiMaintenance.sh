@@ -29,7 +29,7 @@ echo -e "\tCopy & overwriting all bash script files except <context.sh>"
 echo -e "\tTo modify <context.sh> erase file first\n"$LINE
 isOk; val=$?;
 [[ $val == 0 ]] && return
-file=(start.sh context.sh webServerMaintenance.sh webServerStartup.sh webServerConfig.sh rPiMaintenance.sh rpiInstallApps.sh rpiManageStorage.sh functions.sh)
+file=(start.sh webServerMaintenance.sh webServerStartup.sh webServerConfig.sh rPiMaintenance.sh rpiInstallApps.sh rpiManageStorage.sh functions.sh)
 echo -n "Bash files: "
 for ((i=0; i<${#file[@]}; i++)); do
     echo -n '<'${file[i]}'> : '
@@ -48,7 +48,6 @@ while true; do
     echo -e "  2. Update nameservers"
     echo -e "  3. Update server & install uninstalled packages"
     echo -e "  4. Update bash script config files"
-    echo -e "  9. Manage USB drives"
     echo -e "  x. Exit\n"$LINE
     echo -en "\t"; read -rsn1 -p "Enter choice -> " key
     case $key in
@@ -56,11 +55,9 @@ while true; do
         2) updateNameservers ;;
         3) ./rpiInstallApps.sh ;;
         4) downloadGit ;;
-        9) ./rpiManageStorage.sh ;;
-        5) ./miniDLNA.sh ;;
         x) break ;;
         esac
-echo -en $LINE"\t"; read -rsn1 -p "Press key to continue -> " key
+echo -en $LINE"\t"; read -rsn1 -p ">> Press key to continue -> " key
 clear
     done
 exit

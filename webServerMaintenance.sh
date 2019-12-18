@@ -320,7 +320,7 @@ return
 function includeFolder(){
 echo 'Create include folder ... '
 [[ ! -d ${wwwFolder}/include ]] && mkdir -p ${wwwFolder}/include
-[[ ! -f ${wwwFolder}/include/jquery.min.js ]] && wget -O ${wwwFolder}/include/jquery.min.js https://code.jquery.com/jquery-3.3.1.min.js 
+[[ ! -f ${wwwFolder}/include/jquery.min.js ]] && wget -O ${wwwFolder}/include/jquery.min.js https://code.jquery.com/jquery-3.4.1.min.js 
 #
 }
 # --------------------------------------------------------------------------
