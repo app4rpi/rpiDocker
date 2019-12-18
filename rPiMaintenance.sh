@@ -33,10 +33,10 @@ file=(start.sh webServerMaintenance.sh webServerStartup.sh webServerConfig.sh rP
 echo -n "Bash files: "
 for ((i=0; i<${#file[@]}; i++)); do
     echo -n '<'${file[i]}'> : '
-    wget -q https://raw.githubusercontent.com/app4rpi/rpiDocker/master/${file[i]} -O -P ./${file[i]}
+    wget -q https://raw.githubusercontent.com/app4rpi/rpiDocker/master/${file[i]} -O ./${file[i]}
     chmod +x ./${file[i]}
     done
-[[ ! -f ./context.sh ]] && wget -q https://raw.githubusercontent.com/app4rpi/rpiDocker/master/context.sh -P ./
+[[ ! -f ./context.sh ]] && wget -q https://raw.githubusercontent.com/app4rpi/rpiDocker/master/context.sh -O ./context.sh
 echo -e "\n"$LINE$LINE"\n\n\tExit now & restart bash script file \n"
 exit 1
 }
