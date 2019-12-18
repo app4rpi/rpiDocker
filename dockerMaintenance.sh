@@ -39,131 +39,92 @@ echo -en "\t"; read -rsn1 -p "Press key to continue -> " key
 return
 }
 # --------------------------------------------------------------------------
-dockerMinidlna=dockerMinidlna
-function minidlnaDockerCreate(){
-localDir='../'$dockerMinidlna
-echo -e '\n\n'
-if [ ! -d "$localDir" ]; then
-    mkdir "$localDir"
-    chmod 775 "$localDir"
-    chown -R pi:pi "$localDir"
-    echo -e '... Crea dir: '$localDir
-    fi
-file=$localDir/Dockerfile
-if [[ -f $file ]]; then
-	echo "[ $dockerMinidlna/Dockerfile ] already exist"
-else
-fileContent="FROM arm32v6/alpine 
-\nMAINTAINER app4rpi <app4rpi@outlook.com> 
-\nRUN apk add --no-cache bash minidlna && rm -rf /var/cache/apk/* \nADD minidlna.conf /etc/minidlna.conf 
-\nRUN [ \$(getent group minidlna) ] || addgroup minidlna && [ \$(getent passwd minidlna) ] || adduser -G minidlna -S minidlna 
-\nRUN mkdir -p /media /var/log /media/video /media/music /media/img /media/db && chown minidlna:minidlna /media /var/log /media/video /media/music /media/img /media/db 
-\nEXPOSE 1900/udp \nCOPY entrypoint.sh /entrypoint.sh \nRUN chmod +x /entrypoint.sh \nENTRYPOINT [\"/entrypoint.sh\"]"
-    echo -e $fileContent > $file
-	echo "[ $dockerMinidlna/Dockerfile ] created"
-fi
+function dockerImages(){
+    echo -e "\n"$LINE"\n\tDocker images\n"$LINE
+SAVEIFS=$IFS;IFS=$'\n'      # Save & Change IFS to new line
+llista=($(docker images))
+IFS=$SAVEIFS   # Restore IFS
+for ((i=0; i<${#llista[@]}; i++)); do echo -e "( "$i" ) > "${llista[i]}; done
+return
+}
+# ---------------------------------
+function manageImage(){
+opcio=$1
+echo $opcio
+dockerImages
+echo -en "\n"$LINE"\n"; read -rsn1 -p "Image number to $opcio -> " key
+image=(${llista[key]})
+i=${#image[@]}-1
+echo -en "\n\n$opcio Image:" ${image[0]}:${image[1]}" >> " ${image[i]}
+isOk;val=$?; [[ $val == 0 ]] && return;
+case $opcio in
+	Remove) docker rmi ${image[0]}
+		echo -en "\nImage removed";;
+esac
+}
+# ---------------------------------
+function dockerContainers(){
+    echo -en "\n"$LINE"\n\tDocker containers\n"$LINE
+SAVEIFS=$IFS;IFS=$'\n'      # Save & Change IFS to new line
+llista=($(docker ps -a))
+IFS=$SAVEIFS   # Restore IFS
+for ((i=0; i<${#llista[@]}; i++)); do echo -en "\n( "$i" ) > "${llista[i]}; done
+return
+}
+# ---------------------------------
+function manageContainer(){
+opcio=$1
+echo $opcio
+dockerContainers
+echo -en "\n"$LINE"\n"; read -rsn1 -p "Container number to $opcio -> " key
+[[ $key<1 || $key>${#llista[@]}-1 ]] && return;
+container=(${llista[key]})
+i=${#container[@]}-1
+echo -en "\n\n$opcio Container ID:" ${container[0]}" >> " ${container[i]}
+isOk;val=$?; [[ $val == 0 ]] && return;
+case $opcio in
+	Stop) docker stop ${container[0]}
+		echo -en "\nContainer stoped";;
+	Restart) docker restart ${container[0]}
+		echo -en "\nContainer restarted";;
+	Remove) docker rm ${container[0]}
+		echo -en "\nContainer removed";;
+	Logs) docker logs ${container[0]}
+		echo -en "\nContainer logs";;
+	Inspect) docker inspect ${container[0]}
+		echo -en "\nContainer logs";;
 
-file=$localDir/entrypoint.sh
-if [[ -f $file ]]; then
-	echo "[ $dockerMinidlna/entrypoint.sh ] already exist"
-else
-fileContent="#!/bin/bash\nset -e \nfor VAR in \`env\`; do\n\tif [[ \$VAR =~ ^MINIDLNA_ ]]; then
-\n\t\tminidlna_name=\`echo \"\$VAR\" | sed -r \"s/MINIDLNA_(.*)=.*/\1/g\" | tr \'[:upper:]\' \'[:lower:]\'\`
-\n\t\tminidlna_value=\`echo \"\$VAR\" | sed -r \"s/.*=(.*)/\1/g\"\`
-\n\t\techo \"\${minidlna_name}=\${minidlna_value}\" >> /etc/minidlna.conf\n\tfi \ndone
-\n [ -f /var/run/minidlna/minidlna.pid ] && rm -f /var/run/minidlna/minidlna.pid\nexec minidlnad -d \$@"
-echo -e $fileContent > $file
-echo "[ $dockerMinidlna/entrypoint.sh ] created"
-fi
-file=$localDir/minidlna.conf
-if [[ -f $file ]]; then
-	echo "[ $dockerMinidlna/ ] already exist"
-else
-fileContent="# minidlna file config
-\n#uuid= \n#friendly_name=rPi2+ \nport=8200 \ndb_dir=/media/db \nlog_dir=/var/log \nmedia_dir=A,/media/music 
-\nmedia_dir=V,/media/video \nalbum_art_names=Cover.jpg/cover.jpg/Album.jpg/album.jpg/Folder.jpg/folder.jpg 
-\ninotify=yes \nenable_tivo=no \nstrict_dlna=no \nnotify_interval=900 \nserial=1001001 \nmodel_number=1 
-\n#minissdpdsocket=/var/run/minissdpd.sock \n#root_container=. \nwide_links=yes"
-echo -e $fileContent > $file
-echo "[ $dockerMinidlna/minidlna.conf ] created"
-fi
-mkdir -p /app/minidlna/{musica,video,img}
-sudo chown -R pi:pi /app/minidlna $localDir
-echo -e $LINE'\n'; read -rsn1 -p "Press key to continue -> " key;
-return
+esac
 }
-# ----------------------------------
-function makeMinidlnaImage(){
-cd ../$dockerMinidlna
-echo
-ls
-docker build --rm -t minidlna .
-docker volume create minidlna
- echo -e $LINE'\n'; read -rsn1 -p "Press key to continue -> " key;
-return
-cd -
-}
-# --------------------------------------------------------------------------
-dockerUtils=dockerUtils
-function utilsDockerCreate(){
-localDir='../'$dockerUtils
-echo -e '\n\n'
-if [ ! -d "$localDir" ]; then
-    mkdir "$localDir"
-    chmod 775 "$localDir"
-    chown -R pi:pi "$localDir"
-    echo -e '... Crea dir: '$localDir
-    fi
-file=$localDirDockerfile
-if [[ -f $file ]]; then
-	echo "[ $file ] already exist"
-else
-fileContent='FROM arm32v6/alpine\nRUN apk update\nRUN apk add busybox busybox-extras nmap\nRUN rm -rf /var/cache/apk/*
-\nRUN mkdir -p /www /conf\nCOPY "index.html" /www\nRUN touch /etc/httpd.conf\nWORKDIR /www
-\nEXPOSE 8008\nADD entrypoint.sh /entrypoint.sh\nRUN chmod +x /entrypoint.sh
-\n# CMD [ "/usr/sbin/httpd", "-f", "-h", "/www", "-p", "8008", "-c", "/etc/httpd.conf" ]\nENTRYPOINT [ "sh","/entrypoint.sh" ]'
-    echo -e $fileContent > $file
-	echo "[ $file ] created"
-fi
 
-file=$localDirentrypoint.sh
-if [[ -f $file ]]; then
-	echo "[ $file ] already exist"
-else
-fileContent='#!/bin/bash\n#\n/usr/sbin/httpd -f -h /www -p 8008 -c /etc/httpd.conf
-\necho "End of file"\nsleep infinity &\nchild=$!\nwait "$child"'
-echo -e $fileContent > $file
-echo "[ $file ] created"
-fi
-file=$localDirindex.html
-if [[ -f $file ]]; then
-	echo "[ $file ] already exist"
-else
-fileContent='<!DOCTYPE html>\n<html lang="es-ES"><head><meta charset="utf-8" />
-\n<style>body{background:#898E88;font:bold normal 4em "Arial"}\nh1{color:#ded;margin-top:21%;text-align:center;}</style>
-\n</head><body><h1>rPi</h1></body></html>'
-echo -e $fileContent > $file
-echo "[ $file ] created"
-fi
-mkdir -p /app/html/
-sudo chown -R pi:pi /app/html $localDir
-echo -e $LINE'\n'; read -rsn1 -p "Press key to continue -> " key;
-return
-}
 # --------------------------------------------------------------------------
 #
 echo -e "\n\n"
 while true; do
     clear
     echo -e "\n"$LINE"\n\tDocker: maintenance & utilities\n"$LINE 
-    echo -e "  1. Docker Start"
-    echo -e "  2. Docker Stop"
-    echo -e "  3. View Docker Logs"
-    echo -e "Docker images && docker ps -a"
+    echo -e "  1. Docker containers"
+    echo -e "  2. Stop container"
+    echo -e "  3. Start / restart container"
+    echo -e "  4. Remove container"
+    echo -e "  5. View Container Logs"
+    echo -e "  6. Inspect Container"
+    echo
+    echo -e "  7. Docker images"
+    echo -e "  8. Remove image"
+    echo
     echo -e "  u. Install Utilities "
-    echo -e "  x. Exit\n"$LINE
-    echo -en "\t"; read -rsn1 -p "Enter choice -> " key
+    echo -e "  x. Exit"
+    echo -en $LINE"\n\t"; read -rsn1 -p "Enter choice -> " key
     case $key in
+        1) dockerContainers ;;
+	2) manageContainer Stop;;
+	3) manageContainer Restart;;
+	4) manageContainer Remove;;
+	5) manageContainer Logs;;
+	6) manageContainer Inspect;;
+        7) dockerImages ;;
+	8) manageImage Remove ;;
         9) startPortainer ;;
         u) startUtils ;;
         x) break ;;
