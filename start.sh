@@ -25,8 +25,10 @@ while true; do
     echo -e "  2. Manage USB drives"
     echo -e "  3. Docker maintenance"
     echo -e "  4. Web Server maintenance"
+    echo
     echo -e "  u. Other services & apps"
-    echo -e "\n  t. Test script\n"
+    echo -e "  t. Test script"
+    echo
     echo -e "  x. Exit"
     echo -en $LINE"\n\t"; read -rsn1 -p "Enter choice -> " key
     case $key in
@@ -34,6 +36,7 @@ while true; do
         2) ./rpiManageStorage.sh ;;
         3) ./dockerMaintenance.sh ;;
         4) ./webServerMaintenance.sh ;;
+        u) unableFunction.sh ;;
         t) ./test.sh ;;
         x) break ;;
     esac

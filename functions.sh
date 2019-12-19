@@ -23,6 +23,11 @@ while IFS= read -rsn1 key; do
 return 1
 }
 # --------------------------------------------------------------------------
+function unableFunction() {
+echo -e '\n\n'$LINE"\n\t Unable function"
+return 1
+}
+# --------------------------------------------------------------------------
 function statusContainer() {
 temp=$1
 echo -e '\n\n'$LINE"\n\t Docker Container Status"
