@@ -36,7 +36,8 @@ while true; do
         2) ./rpiManageStorage.sh ;;
         3) ./dockerMaintenance.sh ;;
         4) ./webServerMaintenance.sh ;;
-        u) unableFunction.sh ;;
+        u) unableFunction.sh 
+           echo -en "\n"$LINE"\n\t"; read -rsn1 -p "Press key to continue -> " key ;;
         t) ./test.sh ;;
         x) break ;;
     esac
