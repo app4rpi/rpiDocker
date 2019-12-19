@@ -19,6 +19,7 @@ return 1
 #  ---------------------------------------------------------
 # Initial issues
 function initialIsues(){
+sed -i "/*raspi-config*/d" setup.sh && raspi-config    
 [ ! -d ./.startup ] && mkdir -p ./.startup
 cd ./.startup
 }
