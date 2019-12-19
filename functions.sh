@@ -24,7 +24,7 @@ return 1
 }
 # --------------------------------------------------------------------------
 function unableFunction() {
-echo -e '\n\n'$LINE"\n\t Unable function"
+echo -e '\n\n\n'$LINE"\n\t Unable function"
 return 1
 }
 # --------------------------------------------------------------------------
