@@ -27,6 +27,7 @@ echo -e '\n\n'$LINE'\nDocker Portainer: download image and run ... \n'$LINE
 dockerImage="portainer/portainer"
 if [[ -z $(docker images -q $dockerImage) ]]; then
     echo -e "\tLocal Docker image does not exist.\n\tDownload image from DockerHub...\n"
+    docker pull portainer/portainer
 docker volume create portainer_data
 docker run -d --name portainer --restart=always -p 9000:9000 -v /var/run/docker.sock:/var/run/docker.sock -v portainer_data:/data $dockerImage
 else 

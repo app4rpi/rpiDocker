@@ -34,8 +34,9 @@ cd ..
 # Update server
 function updateServer(){
 echo -e 'Update server'
-apt update -y && apt dist-upgrade -y && apt upgrade -y
-apt autoremove --purge && apt clean
+apt update -y 
+# apt dist-upgrade -y && apt upgrade -y
+# apt autoremove --purge && apt clean
 echo $LINE$LINE
 return
 }
@@ -105,12 +106,14 @@ function installDocker(){
 echo -e $LINE "\nInstall docker ... "
 [[ $(dpkg --get-selections docker-ce) ]] && { echo "Already installed";  return 1;}
 curl -fsSL https://get.docker.com | sh
-usermod -aG docker $USER
 apt-get install -y libffi-dev libssl-dev
 apt-get install -y python python-pip
 apt-get remove -y python-configparser
 systemctl enable docker
 systemctl start docker
+newgrp docker
+usermod -aG docker $USER
+[[ $SUDO_USER ]] && usermod -aG docker $SUDO_USER || usermod -aG docker $USER
 return 1
 }
 #  ------------------------------------------------------------------------------------------------------------------
