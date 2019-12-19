@@ -35,6 +35,7 @@ for ((i=0; i<${#file[@]}; i++)); do
     echo -n '<'${file[i]}'> : '
     wget -q https://raw.githubusercontent.com/app4rpi/rpiDocker/master/${file[i]} -O ./${file[i]}
     chmod +x ./${file[i]}
+    chown -R pi:pi ./${file[i]}
     done
 [[ ! -f ./context.sh ]] && wget -q https://raw.githubusercontent.com/app4rpi/rpiDocker/master/context.sh -O ./context.sh
 echo -e "\n"$LINE"\n\n\tExit now & restart bash script file \n"
